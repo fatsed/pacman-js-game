@@ -651,6 +651,21 @@ function drawDots() {
   });
 }
 
+function moveGhosts() {
+  moveGhost(blueGhost);
+  moveGhost(redGhost);
+  moveGhost(pinkGhost);
+  moveGhost(orangeGhost);
+}
+
+function drawCharacters() {
+  pacman.draw();
+  blueGhost.draw();
+  redGhost.draw();
+  pinkGhost.draw();
+  orangeGhost.draw();
+}
+
 function animate() {
   requestAnimationFrame(animate);
   context.clearRect(0, 0, canvas.width, canvas.height);
@@ -673,17 +688,11 @@ function animate() {
     return;
   }
   drawDots();
+
   movePacman();
-  // Ghost movement
-  moveGhost(blueGhost);
-  moveGhost(redGhost);
-  moveGhost(pinkGhost);
-  moveGhost(orangeGhost);
-  pacman.draw();
-  blueGhost.draw();
-  redGhost.draw();
-  pinkGhost.draw();
-  orangeGhost.draw();
+  moveGhosts();
+
+  drawCharacters();
 }
 animate();
 addEventListener("keydown", (e) => {
