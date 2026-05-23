@@ -272,39 +272,7 @@ class Pacman {
           isPlaying = true;
           score = 10;
           scoreText.innerText = score;
-          pacman = new Pacman({
-            position: { x: 18, y: 18 },
-            velocity: { x: 0, y: 0 },
-            gridPosition: { row: 1, column: 1 },
-          });
-          blueGhost = new Ghost({
-            position: { x: 14 * 18, y: 14 * 18 },
-            velocity: { x: 0, y: 0 },
-            gridPosition: { row: 14, column: 14 },
-            src: "blueGhost",
-            direction: "up",
-          });
-          redGhost = new Ghost({
-            position: { x: 10 * 18, y: 7 * 18 },
-            velocity: { x: 0, y: 0 },
-            gridPosition: { row: 7, column: 10 },
-            src: "redGhost",
-            direction: "up",
-          });
-          pinkGhost = new Ghost({
-            position: { x: 17 * 18, y: 20 * 18 },
-            velocity: { x: 0, y: 0 },
-            gridPosition: { row: 20, column: 17 },
-            src: "pinkGhost",
-            direction: "left",
-          });
-          orangeGhost = new Ghost({
-            position: { x: 5 * 18, y: 10 * 18 },
-            velocity: { x: 0, y: 0 },
-            gridPosition: { row: 10, column: 5 },
-            src: "orangeGhost",
-            direction: "left",
-          });
+          resetCharacters();
           gameMap = initialGameMap.map((row) => [...row]);
           statusDiv.style.display = "none";
           clearInterval(interval);
@@ -463,6 +431,47 @@ let orangeGhost = new Ghost({
   src: "orangeGhost",
   direction: "left",
 });
+
+function resetCharacters() {
+  pacman = new Pacman({
+    position: { x: 18, y: 18 },
+    velocity: { x: 0, y: 0 },
+    gridPosition: { row: 1, column: 1 },
+  });
+
+  blueGhost = new Ghost({
+    position: { x: 14 * 18, y: 14 * 18 },
+    velocity: { x: 0, y: 0 },
+    gridPosition: { row: 14, column: 14 },
+    src: "blueGhost",
+    direction: "up",
+  });
+
+  redGhost = new Ghost({
+    position: { x: 10 * 18, y: 7 * 18 },
+    velocity: { x: 0, y: 0 },
+    gridPosition: { row: 7, column: 10 },
+    src: "redGhost",
+    direction: "up",
+  });
+
+  pinkGhost = new Ghost({
+    position: { x: 17 * 18, y: 20 * 18 },
+    velocity: { x: 0, y: 0 },
+    gridPosition: { row: 20, column: 17 },
+    src: "pinkGhost",
+    direction: "left",
+  });
+
+  orangeGhost = new Ghost({
+    position: { x: 5 * 18, y: 10 * 18 },
+    velocity: { x: 0, y: 0 },
+    gridPosition: { row: 10, column: 5 },
+    src: "orangeGhost",
+    direction: "left",
+  });
+}
+
 function randomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
