@@ -1,24 +1,49 @@
-const canvas=document.createElement('canvas');
-const mainDiv=document.getElementById('pacman');
-canvas.width=mainDiv.offsetWidth;
-canvas.height=mainDiv.offsetHeight;
-mainDiv.appendChild(canvas);
-let stateDive=document.createElement('div');
-mainDiv.appendChild(stateDive);
-stateDive.style="position:absolute;inset:0;background:rgba(0,0,0,.5);color:yellow;display:flex;align-items:center;justify-content:center;";
-stateDive.innerText='press n to start';
-let ckeck=0;
-let isplay=false;
-let c=canvas.getContext('2d');
-let direction='down';
-let lastkey='ArrowDown';
-const speed=3;
-const ghostSpeed=2;
-let score=10;
-const p=document.createElement('p');
-p.style="position:relative;color:yellow;bottom:48px;left:100px;display:none";
-mainDiv.appendChild(p);
-p.innerText=score;
+const canvas = document.createElement("canvas");
+const gameContainer = document.getElementById("pacman");
+
+canvas.width = gameContainer.offsetWidth;
+canvas.height = gameContainer.offsetHeight;
+gameContainer.appendChild(canvas);
+
+const context = canvas.getContext("2d");
+
+const statusDiv = document.createElement("div");
+gameContainer.appendChild(statusDiv);
+
+statusDiv.style = `
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: yellow;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+statusDiv.innerText = "Press N to Start";
+
+const scoreText = document.createElement("p");
+scoreText.style = `
+  position: relative;
+  color: yellow;
+  bottom: 48px;
+  left: 100px;
+  display: none;
+`;
+
+gameContainer.appendChild(scoreText);
+
+let startCount = 0;
+let isPlaying = false;
+
+let direction = "down";
+let lastkey = "ArrowDown";
+
+const speed = 3;
+const ghostSpeed = 2;
+
+let score = 10;
+scoreText.innerText = score;
 ////////////// 1= wall 2= dots 3=space 22 row 19 colunm
 let Map=[
   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -55,11 +80,11 @@ class Dots{
  }
  draw()
  {
-   c.fillStyle='white';
-   c.beginPath();
-   c.arc(this.x,this.y,this.radius,0,this.ea);
-   c.fill();
-   c.closePath();
+   context.fillStyle='white';
+   context.beginPath();
+   context.arc(this.x,this.y,this.radius,0,this.ea);
+   context.fill();
+   context.closePath();
  }
 }
 class redo{
@@ -110,9 +135,9 @@ class Pacman
       image.src='view/pacman-full.png';
     }
 
-   c.beginPath();
-   c.drawImage(image,this.x,this.y,22,22);
-   c.closePath();
+   context.beginPath();
+   context.drawImage(image,this.x,this.y,22,22);
+   context.closePath();
   }
   goUp()
   {
@@ -127,7 +152,7 @@ class Pacman
         if (Map[this.row][this.column]===2)
         {
           score+=10;
-          p.innerText=score;
+          scoreText.innerText=score;
           new redo({position:{row:this.row,col:this.column}}).redoDots();
         }
         if (this.y!==this.row*18)
@@ -152,7 +177,7 @@ class Pacman
         if (Map[this.row][this.column]===2)
         {
           score+=10;
-          p.innerText=score;
+          scoreText.innerText=score;
             new redo({position:{row:this.row,col:this.column}}).redoDots();
         }
         if (this.y!==this.row*18)
@@ -177,7 +202,7 @@ class Pacman
         if (Map[this.row][this.column]===2)
         {
           score+=10;
-          p.innerText=score;
+          scoreText.innerText=score;
             new redo({position:{row:this.row,col:this.column}}).redoDots();
         }
         if (this.x!==this.column*18)
@@ -202,7 +227,7 @@ class Pacman
         if (Map[this.row][this.column]===2)
         {
           score+=10;
-          p.innerText=score;
+          scoreText.innerText=score;
             new redo({position:{row:this.row,col:this.column}}).redoDots();
         }
         if (this.x!==this.column*18)
@@ -250,21 +275,21 @@ class Pacman
   }
   play()
   {
-    isplay=false;
+    isPlaying=false;
     let timer=3;
-    if (ckeck!==1)
+    if (startCount!==1)
     {
       let interval=setInterval(()=>
       {
 
-        stateDive.innerText=timer;
+        statusDiv.innerText=timer;
         timer--;
         if (timer<0)
         {
-          ckeck=0;
+          startCount=0;
           direction='down';
           lastkey='ArrowDown';
-          isplay=true;
+          isPlaying=true;
           score=10;
           pacman=new Pacman({position:{x:18,y:18},velocity:{x:0,y:0},matrisPosition:{row:1,column:1}});
           BlueGost=new Ghosts({position:{x:14*18,y:14*18},velocity:{x:0,y:0},matrisPosition:{row:14,column:14},src:'view/blue.png',direction:'up'});
@@ -295,7 +320,7 @@ class Pacman
             [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
           ];
-          stateDive.style.display="none";
+          statusDiv.style.display="none";
           clearInterval(interval);
         }
       },1000);
@@ -319,9 +344,9 @@ class Ghosts
   {
     let image=new Image();
       image.src=this.src;
-    c.beginPath();
-    c.drawImage(image,this.x,this.y,22,22);
-    c.closePath();
+    context.beginPath();
+    context.drawImage(image,this.x,this.y,22,22);
+    context.closePath();
   }
   goUp()
   {
@@ -469,7 +494,7 @@ function  randomNumber(min,max)
 function animate()
 {
   requestAnimationFrame(animate);
-  c.clearRect(0,0,canvas.width,canvas.height);
+  context.clearRect(0,0,canvas.width,canvas.height);
   pacman.velY=0;
   pacman.velX=0;
   RedGost.velY=0;
@@ -481,48 +506,48 @@ function animate()
   OrangeGost.velY=0;
   OrangeGost.velX=0;
 
-  if (!isplay)
+  if (!isPlaying)
   {
-  p.style.display='none';
+  scoreText.style.display='none';
     return;
   }
 else
   {
-    p.style.display='flex';
+    scoreText.style.display='flex';
   }
 
   // if (score===1830)
   // {
-  //   stateDive.style.display="flex";
+  //   statusDiv.style.display="flex";
   //
-  //   stateDive.innerHTML='you win'+'<br>'+'press N to start';
+  //   statusDiv.innerHTML='you win'+'<br>'+'press N to start';
   //   return;
   // }
   if ((pacman.x + 22 > RedGost.x && pacman.x <RedGost.x+22) &&(pacman.y+22 > RedGost.y && pacman.y< RedGost.y+22))
   {
-    stateDive.style.display="flex";
+    statusDiv.style.display="flex";
 
-    stateDive.innerHTML='you lose'+'<br>'+'press N to start';
+    statusDiv.innerHTML='you lose'+'<br>'+'press N to start';
     return;
   }
   if ((pacman.x + 22 > PinkGost.x && pacman.x <PinkGost.x+22) &&(pacman.y+22 > PinkGost.y && pacman.y< PinkGost.y+22))
   {
-    stateDive.style.display="flex";
+    statusDiv.style.display="flex";
 
-    stateDive.innerHTML='you lose'+'<br>'+'press N to start';
+    statusDiv.innerHTML='you lose'+'<br>'+'press N to start';
     return;
   }
   if ((pacman.x + 22 > OrangeGost.x && pacman.x <OrangeGost.x+22) &&(pacman.y+22 > OrangeGost.y && pacman.y< OrangeGost.y+22))
   {
-    stateDive.style.display="flex";
-    stateDive.innerHTML='you lose'+'<br>'+'press N to start';
+    statusDiv.style.display="flex";
+    statusDiv.innerHTML='you lose'+'<br>'+'press N to start';
     return;
   }
   if ((pacman.x + 22 > BlueGost.x && pacman.x <BlueGost.x+22) &&(pacman.y+22 > BlueGost.y && pacman.y< BlueGost.y+22))
   {
-    stateDive.style.display="flex";
+    statusDiv.style.display="flex";
 
-    stateDive.innerHTML='you lose'+'<br>'+'press N to start';
+    statusDiv.innerHTML='you lose'+'<br>'+'press N to start';
     return;
   }
   Map.forEach((row,i)=>
@@ -1301,11 +1326,13 @@ addEventListener('keydown',(e)=>
     lastkey="ArrowLeft";
     break;
   }
-          case 'n':
-{
- pacman.play();
- ckeck++;
- stateDive.style.display='flex';
+    case 'n':
+    case 'N':
+  {
+  pacman.play();
+  startCount++;
+  statusDiv.style.display = 'flex';
+  break;
 }
   }
 });
