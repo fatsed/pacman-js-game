@@ -44,6 +44,21 @@ const ghostSpeed = 2;
 
 let score = 10;
 scoreText.innerText = score;
+
+const images = {
+  pacmanUp: new Image(),
+  pacmanDown: new Image(),
+  pacmanLeft: new Image(),
+  pacmanRight: new Image(),
+  pacmanFull: new Image(),
+};
+
+images.pacmanUp.src = "view/pacman-up.png";
+images.pacmanDown.src = "view/pacman-down.png";
+images.pacmanLeft.src = "view/pacman-left.png";
+images.pacmanRight.src = "view/pacman-right.png";
+images.pacmanFull.src = "view/pacman-full.png";
+
 // 1 = wall, 2 = dot, 3 = empty space
 // Map size: 22 rows × 19 columns
 let gameMap=[
@@ -70,24 +85,24 @@ let gameMap=[
   [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 ];
-class Dot{
- constructor({position}) {
-   this.x=position.x;
-   this.y=position.y;
-   this.radius=2;
-   this.ea=Math.PI*2;
 
+class Dot {
+  constructor({ position }) {
+    this.x = position.x;
+    this.y = position.y;
+    this.radius = 2;
+    this.endAngle = Math.PI * 2;
+  }
 
- }
- draw()
- {
-   context.fillStyle='white';
-   context.beginPath();
-   context.arc(this.x,this.y,this.radius,0,this.ea);
-   context.fill();
-   context.closePath();
- }
+  draw() {
+    context.fillStyle = "white";
+    context.beginPath();
+    context.arc(this.x, this.y, this.radius, 0, this.endAngle);
+    context.fill();
+    context.closePath();
+  }
 }
+
 class DotRespawn{
     constructor({position}) {
         this.row=position.row;
@@ -112,33 +127,22 @@ class Pacman
     this.row=gridPosition.row;
     this.column=gridPosition.column;
   }
-  draw()
-  {
-    let image=new Image();
-    if (direction==='up')
-    {
-      image.src='view/pacman-up.png';
-    }
-   else if (direction==='down')
-    {
-      image.src='view/pacman-down.png';
-    }
-   else if (direction==='right')
-  {
-    image.src='view/pacman-right.png';
-  }
-   else if (direction==='left')
-  {
-    image.src='view/pacman-left.png';
-  }
-   else
-    {
-      image.src='view/pacman-full.png';
-    }
+  draw() {
+  let image = images.pacmanFull;
 
-   context.beginPath();
-   context.drawImage(image,this.x,this.y,22,22);
-   context.closePath();
+  if (direction === "up") {
+    image = images.pacmanUp;
+  } else if (direction === "down") {
+    image = images.pacmanDown;
+  } else if (direction === "right") {
+    image = images.pacmanRight;
+  } else if (direction === "left") {
+    image = images.pacmanLeft;
+  }
+
+  context.beginPath();
+  context.drawImage(image, this.x, this.y, 22, 22);
+  context.closePath();
   }
   goUp()
   {
