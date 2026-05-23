@@ -4,26 +4,47 @@
   font-weight: normal;
   font-style: normal;
 }
+
 body {
-  width: 342px;
-  margin: 0 auto;
+  min-height: 100vh;
+  margin: 0;
   font-family: sans-serif;
+  background-color: #888;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
+
 h1 {
   font-family: "BDCartoonShoutRegular", sans-serif;
   text-align: center;
+  margin: 0 0 24px;
+  font-size: 44px;
 }
-a {
-  text-decoration: none;
+
+main {
+  height: 533px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
+
 #shim {
   font-family: "BDCartoonShoutRegular", sans-serif;
   position: absolute;
   visibility: hidden;
 }
+
 #pacman {
   width: 342px;
   height: 426px;
-  margin: 20px auto;
+  position: relative;
   background-image: url("../view/board.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  transform: scale(1.25);
+  transform-origin: top center;
 }
