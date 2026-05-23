@@ -520,6 +520,7 @@ function getRandomDirection() {
 }
 
 function showGameOver() {
+  isPlaying = false;
   statusDiv.style.display = "flex";
   statusDiv.innerHTML = "You Lose<br>Press N to Restart";
 }
