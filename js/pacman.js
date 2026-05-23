@@ -677,29 +677,57 @@ function animate() {
 }
 animate();
 addEventListener("keydown", (e) => {
+  if (
+    e.key === "ArrowUp" ||
+    e.key === "ArrowDown" ||
+    e.key === "ArrowLeft" ||
+    e.key === "ArrowRight" ||
+    e.key === "w" ||
+    e.key === "W" ||
+    e.key === "a" ||
+    e.key === "A" ||
+    e.key === "s" ||
+    e.key === "S" ||
+    e.key === "d" ||
+    e.key === "D"
+  ) {
+    e.preventDefault();
+  }
   switch (e.key) {
-    case "ArrowUp": {
+    case "ArrowUp":
+    case "w":
+    case "W": {
       if ((pacman.x <= 72 || pacman.x >= 270) && pacman.y === 180) {
       } else {
         lastkey = "ArrowUp";
       }
       break;
     }
-    case "ArrowDown": {
+
+    case "ArrowDown":
+    case "s":
+    case "S": {
       if ((pacman.x <= 72 || pacman.x >= 270) && pacman.y === 180) {
       } else {
         lastkey = "ArrowDown";
       }
       break;
     }
-    case "ArrowRight": {
+
+    case "ArrowRight":
+    case "d":
+    case "D": {
       lastkey = "ArrowRight";
       break;
     }
-    case "ArrowLeft": {
+
+    case "ArrowLeft":
+    case "a":
+    case "A": {
       lastkey = "ArrowLeft";
       break;
     }
+
     case "n":
     case "N": {
       pacman.play();
