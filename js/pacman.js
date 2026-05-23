@@ -51,6 +51,11 @@ const images = {
   pacmanLeft: new Image(),
   pacmanRight: new Image(),
   pacmanFull: new Image(),
+
+  blueGhost: new Image(),
+  redGhost: new Image(),
+  pinkGhost: new Image(),
+  orangeGhost: new Image(),
 };
 
 images.pacmanUp.src = "view/pacman-up.png";
@@ -58,6 +63,11 @@ images.pacmanDown.src = "view/pacman-down.png";
 images.pacmanLeft.src = "view/pacman-left.png";
 images.pacmanRight.src = "view/pacman-right.png";
 images.pacmanFull.src = "view/pacman-full.png";
+
+images.blueGhost.src = "view/blue.png";
+images.redGhost.src = "view/red.png";
+images.pinkGhost.src = "view/pink.png";
+images.orangeGhost.src = "view/orange.png";
 
 // 1 = wall, 2 = dot, 3 = empty space
 // Map size: 22 rows × 19 columns
@@ -297,10 +307,10 @@ class Pacman
           isPlaying=true;
           score=10;
           pacman=new Pacman({position:{x:18,y:18},velocity:{x:0,y:0},gridPosition:{row:1,column:1}});
-          blueGhost=new Ghost({position:{x:14*18,y:14*18},velocity:{x:0,y:0},gridPosition:{row:14,column:14},src:'view/blue.png',direction:'up'});
-          redGhost=new Ghost({position:{x:10*18,y:7*18},velocity:{x:0,y:0},gridPosition:{row:7,column:10},src:'view/red.png',direction:'up'});
-          pinkGhost=new Ghost({position:{x:17*18,y:20*18},velocity:{x:0,y:0},gridPosition:{row:20,column:17},src:'view/pink.png',direction:'left'});
-          orangeGhost=new Ghost({position:{x:5*18,y:10*18},velocity:{x:0,y:0},gridPosition:{row:10,column:5},src:'view/orange.png',direction:'left'});
+          blueGhost=new Ghost({position:{x:14*18,y:14*18},velocity:{x:0,y:0},gridPosition:{row:14,column:14},src: "blueGhost",direction:'up'});
+          redGhost=new Ghost({position:{x:10*18,y:7*18},velocity:{x:0,y:0},gridPosition:{row:7,column:10},src: "redGhost",direction:'up'});
+          pinkGhost=new Ghost({position:{x:17*18,y:20*18},velocity:{x:0,y:0},gridPosition:{row:20,column:17},src: "pinkGhost",direction:'left'});
+          orangeGhost=new Ghost({position:{x:5*18,y:10*18},velocity:{x:0,y:0},gridPosition:{row:10,column:5},src: "orangeGhost",direction:'left'});
           gameMap=[
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
             [1,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,1],
@@ -341,20 +351,17 @@ class Ghost
     this.velY=velocity.y;
     this.row=gridPosition.row;
     this.column=gridPosition.column;
-    this.src=src;
-    this.direction=direction;
-    this.isOut=false;
+    this.src = src;
+    this.image = images[src];
+    this.direction = direction;
+    this.isOut = false;
   }
-  draw()
-  {
-    let image=new Image();
-      image.src=this.src;
-    context.beginPath();
-    context.drawImage(image,this.x,this.y,22,22);
-    context.closePath();
+  draw() {
+  context.beginPath();
+  context.drawImage(this.image, this.x, this.y, 22, 22);
+  context.closePath();
   }
-  goUp()
-  {
+  goUp(){
     if (gameMap[this.row-1][this.column]!==1)
     {
       this.direction='up';
@@ -367,8 +374,7 @@ class Ghost
       }
     }
   }
-  goDown()
-  {
+  goDown(){
     if (gameMap[this.row+1][this.column]!==1)
     {
       this.direction='down';
@@ -378,13 +384,11 @@ class Ghost
       {
         this.row++;
           this.checkMove();
-
       }
 
     }
   }
-  goRight()
-  {
+  goRight(){
     if (gameMap[this.row][this.column+1]!==1)
     {
       this.direction='right';
@@ -394,13 +398,10 @@ class Ghost
       {
         this.column++;
           this.checkMove();
-
       }
-
     }
   }
-  goLeft()
-  {
+  goLeft(){
     if (gameMap[this.row][this.column-1]!==1)
     {
       this.direction='left';
@@ -410,32 +411,23 @@ class Ghost
       {
         this.column--;
           this.checkMove();
-
       }
-
     }
   }
-  checkMove()
-  {
-      if (this.x>0 && this.x<342)
-      {
-          if (this.x%18===0&&this.y%18===0)
-          {
+  checkMove(){
+      if (this.x>0 && this.x<342){
+          if (this.x%18===0&&this.y%18===0){
               let counter=0;
-              if (gameMap[this.row+1][this.column]!==1)
-              {
+              if (gameMap[this.row+1][this.column]!==1){
                   counter++;
-              }
-              if (gameMap[this.row-1][this.column]!==1)
-              {
+                }
+              if (gameMap[this.row-1][this.column]!==1){
                   counter++;
-              }
-              if (gameMap[this.row][this.column+1]!==1)
-              {
+                }
+              if (gameMap[this.row][this.column+1]!==1){
                   counter++;
-              }
-              if (gameMap[this.row][this.column-1]!==1)
-              {
+                }
+              if (gameMap[this.row][this.column-1]!==1){
                   counter++;
               }
               if (counter>=3)
@@ -488,10 +480,10 @@ class Ghost
   }
 }
 let pacman=new Pacman({position:{x:18,y:18},velocity:{x:0,y:0},gridPosition:{row:1,column:1}});
-let blueGhost=new Ghost({position:{x:14*18,y:14*18},velocity:{x:0,y:0},gridPosition:{row:14,column:14},src:'view/blue.png',direction:'up'});
-let redGhost=new Ghost({position:{x:10*18,y:7*18},velocity:{x:0,y:0},gridPosition:{row:7,column:10},src:'view/red.png',direction:'up'});
-let pinkGhost=new Ghost({position:{x:17*18,y:20*18},velocity:{x:0,y:0},gridPosition:{row:20,column:17},src:'view/pink.png',direction:'left'});
-let orangeGhost=new Ghost({position:{x:5*18,y:10*18},velocity:{x:0,y:0},gridPosition:{row:10,column:5},src:'view/orange.png',direction:'left'});
+let blueGhost=new Ghost({position:{x:14*18,y:14*18},velocity:{x:0,y:0},gridPosition:{row:14,column:14},src: "blueGhost",direction:'up'});
+let redGhost=new Ghost({position:{x:10*18,y:7*18},velocity:{x:0,y:0},gridPosition:{row:7,column:10},src: "redGhost",direction:'up'});
+let pinkGhost=new Ghost({position:{x:17*18,y:20*18},velocity:{x:0,y:0},gridPosition:{row:20,column:17},src: "pinkGhost",direction:'left'});
+let orangeGhost=new Ghost({position:{x:5*18,y:10*18},velocity:{x:0,y:0},gridPosition:{row:10,column:5},src: "orangeGhost",direction:'left'});
 function  randomNumber(min,max)
 {
   return Math.floor(Math.random() * (max-min+1))+min;
