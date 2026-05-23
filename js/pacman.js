@@ -292,10 +292,10 @@ class Pacman
           isPlaying=true;
           score=10;
           pacman=new Pacman({position:{x:18,y:18},velocity:{x:0,y:0},matrisPosition:{row:1,column:1}});
-          BlueGost=new Ghosts({position:{x:14*18,y:14*18},velocity:{x:0,y:0},matrisPosition:{row:14,column:14},src:'view/blue.png',direction:'up'});
-          RedGost=new Ghosts({position:{x:10*18,y:7*18},velocity:{x:0,y:0},matrisPosition:{row:7,column:10},src:'view/red.png',direction:'up'});
-          PinkGost=new Ghosts({position:{x:17*18,y:20*18},velocity:{x:0,y:0},matrisPosition:{row:20,column:17},src:'view/pink.png',direction:'left'});
-          OrangeGost=new Ghosts({position:{x:5*18,y:10*18},velocity:{x:0,y:0},matrisPosition:{row:10,column:5},src:'view/orange.png',direction:'left'});
+          blueGhost=new Ghosts({position:{x:14*18,y:14*18},velocity:{x:0,y:0},matrisPosition:{row:14,column:14},src:'view/blue.png',direction:'up'});
+          redGhost=new Ghosts({position:{x:10*18,y:7*18},velocity:{x:0,y:0},matrisPosition:{row:7,column:10},src:'view/red.png',direction:'up'});
+          pinkGhost=new Ghosts({position:{x:17*18,y:20*18},velocity:{x:0,y:0},matrisPosition:{row:20,column:17},src:'view/pink.png',direction:'left'});
+          orangeGhost=new Ghosts({position:{x:5*18,y:10*18},velocity:{x:0,y:0},matrisPosition:{row:10,column:5},src:'view/orange.png',direction:'left'});
           Map=[
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
             [1,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,1],
@@ -483,10 +483,10 @@ class Ghosts
   }
 }
 let pacman=new Pacman({position:{x:18,y:18},velocity:{x:0,y:0},matrisPosition:{row:1,column:1}});
-let BlueGost=new Ghosts({position:{x:14*18,y:14*18},velocity:{x:0,y:0},matrisPosition:{row:14,column:14},src:'view/blue.png',direction:'up'});
-let RedGost=new Ghosts({position:{x:10*18,y:7*18},velocity:{x:0,y:0},matrisPosition:{row:7,column:10},src:'view/red.png',direction:'up'});
-let PinkGost=new Ghosts({position:{x:17*18,y:20*18},velocity:{x:0,y:0},matrisPosition:{row:20,column:17},src:'view/pink.png',direction:'left'});
-let OrangeGost=new Ghosts({position:{x:5*18,y:10*18},velocity:{x:0,y:0},matrisPosition:{row:10,column:5},src:'view/orange.png',direction:'left'});
+let blueGhost=new Ghosts({position:{x:14*18,y:14*18},velocity:{x:0,y:0},matrisPosition:{row:14,column:14},src:'view/blue.png',direction:'up'});
+let redGhost=new Ghosts({position:{x:10*18,y:7*18},velocity:{x:0,y:0},matrisPosition:{row:7,column:10},src:'view/red.png',direction:'up'});
+let pinkGhost=new Ghosts({position:{x:17*18,y:20*18},velocity:{x:0,y:0},matrisPosition:{row:20,column:17},src:'view/pink.png',direction:'left'});
+let orangeGhost=new Ghosts({position:{x:5*18,y:10*18},velocity:{x:0,y:0},matrisPosition:{row:10,column:5},src:'view/orange.png',direction:'left'});
 function  randomNumber(min,max)
 {
   return Math.floor(Math.random() * (max-min+1))+min;
@@ -497,14 +497,14 @@ function animate()
   context.clearRect(0,0,canvas.width,canvas.height);
   pacman.velY=0;
   pacman.velX=0;
-  RedGost.velY=0;
-  RedGost.velX=0;
-  BlueGost.velY=0;
-  BlueGost.velX=0;
-  PinkGost.velY=0;
-  PinkGost.velX=0;
-  OrangeGost.velY=0;
-  OrangeGost.velX=0;
+  redGhost.velY=0;
+  redGhost.velX=0;
+  blueGhost.velY=0;
+  blueGhost.velX=0;
+  pinkGhost.velY=0;
+  pinkGhost.velX=0;
+  orangeGhost.velY=0;
+  orangeGhost.velX=0;
 
   if (!isPlaying)
   {
@@ -523,27 +523,27 @@ else
   //   statusDiv.innerHTML='you win'+'<br>'+'press N to start';
   //   return;
   // }
-  if ((pacman.x + 22 > RedGost.x && pacman.x <RedGost.x+22) &&(pacman.y+22 > RedGost.y && pacman.y< RedGost.y+22))
+  if ((pacman.x + 22 > redGhost.x && pacman.x <redGhost.x+22) &&(pacman.y+22 > redGhost.y && pacman.y< redGhost.y+22))
   {
     statusDiv.style.display="flex";
 
     statusDiv.innerHTML='you lose'+'<br>'+'press N to start';
     return;
   }
-  if ((pacman.x + 22 > PinkGost.x && pacman.x <PinkGost.x+22) &&(pacman.y+22 > PinkGost.y && pacman.y< PinkGost.y+22))
+  if ((pacman.x + 22 > pinkGhost.x && pacman.x <pinkGhost.x+22) &&(pacman.y+22 > pinkGhost.y && pacman.y< pinkGhost.y+22))
   {
     statusDiv.style.display="flex";
 
     statusDiv.innerHTML='you lose'+'<br>'+'press N to start';
     return;
   }
-  if ((pacman.x + 22 > OrangeGost.x && pacman.x <OrangeGost.x+22) &&(pacman.y+22 > OrangeGost.y && pacman.y< OrangeGost.y+22))
+  if ((pacman.x + 22 > orangeGhost.x && pacman.x <orangeGhost.x+22) &&(pacman.y+22 > orangeGhost.y && pacman.y< orangeGhost.y+22))
   {
     statusDiv.style.display="flex";
     statusDiv.innerHTML='you lose'+'<br>'+'press N to start';
     return;
   }
-  if ((pacman.x + 22 > BlueGost.x && pacman.x <BlueGost.x+22) &&(pacman.y+22 > BlueGost.y && pacman.y< BlueGost.y+22))
+  if ((pacman.x + 22 > blueGhost.x && pacman.x <blueGhost.x+22) &&(pacman.y+22 > blueGhost.y && pacman.y< blueGhost.y+22))
   {
     statusDiv.style.display="flex";
 
@@ -697,143 +697,143 @@ else
 
   ////////////////////////////////////////// ghost momement
 
-   if (BlueGost.direction==="up")
+   if (blueGhost.direction==="up")
   {
-    if (Map[BlueGost.row-1][BlueGost.column]===1)
+    if (Map[blueGhost.row-1][blueGhost.column]===1)
     {
       let random=randomNumber(1,4);
       switch (random)
       {
         case 1:
         {
-          BlueGost.direction="up";
+          blueGhost.direction="up";
           break;
         }
         case 2:
         {
-          BlueGost.direction="right";
+          blueGhost.direction="right";
           break;
         }
         case 3:
         {
-          BlueGost.direction="down";
+          blueGhost.direction="down";
           break;
         }
         case 4:
         {
-          BlueGost.direction="left";
+          blueGhost.direction="left";
           break;
         }
       }
     }
     else
     {
-      BlueGost.goUp();
+      blueGhost.goUp();
     }
 
   }
-   else    if (BlueGost.direction==="down")
+   else    if (blueGhost.direction==="down")
    {
-     if (Map[BlueGost.row+1][BlueGost.column]===1)
+     if (Map[blueGhost.row+1][blueGhost.column]===1)
      {
        let random=randomNumber(1,4);
        switch (random)
        {
          case 1:
          {
-           BlueGost.direction="up";
+           blueGhost.direction="up";
            break;
          }
          case 2:
          {
-           BlueGost.direction="right";
+           blueGhost.direction="right";
            break;
          }
          case 3:
          {
-           BlueGost.direction="down";
+           blueGhost.direction="down";
            break;
          }
          case 4:
          {
-           BlueGost.direction="left";
+           blueGhost.direction="left";
            break;
          }
        }
      }
      else
      {
-       BlueGost.goDown();
+       blueGhost.goDown();
      }
 
    }
-   else   if (BlueGost.direction==="left")
+   else   if (blueGhost.direction==="left")
    {
-     if (Map[BlueGost.row][BlueGost.column-1]===1)
+     if (Map[blueGhost.row][blueGhost.column-1]===1)
      {
       let random=randomNumber(1,4);
        switch (random)
        {
          case 1:
          {
-           BlueGost.direction="up";
+           blueGhost.direction="up";
            break;
          }
          case 2:
          {
-           BlueGost.direction="right";
+           blueGhost.direction="right";
            break;
          }
          case 3:
          {
-           BlueGost.direction="down";
+           blueGhost.direction="down";
            break;
          }
          case 4:
          {
-           BlueGost.direction="left";
+           blueGhost.direction="left";
            break;
          }
        }
      }
      else
      {
-       BlueGost.goLeft();
+       blueGhost.goLeft();
      }
 
    }
-   else   if (BlueGost.direction==="right")
+   else   if (blueGhost.direction==="right")
    {
-     if (Map[BlueGost.row][BlueGost.column+1]===1)
+     if (Map[blueGhost.row][blueGhost.column+1]===1)
      {
        let random=randomNumber(1,4);
        switch (random)
        {
          case 1:
          {
-           BlueGost.direction="up";
+           blueGhost.direction="up";
            break;
          }
          case 2:
          {
-           BlueGost.direction="right";
+           blueGhost.direction="right";
            break;
          }
          case 3:
          {
-           BlueGost.direction="down";
+           blueGhost.direction="down";
            break;
          }
          case 4:
          {
-           BlueGost.direction="left";
+           blueGhost.direction="left";
            break;
          }
        }
      }
      else
      {
-       BlueGost.goRight();
+       blueGhost.goRight();
      }
 
    }
@@ -842,9 +842,9 @@ else
 
 
   // blue ghost test do not come to this aria
-  if (RedGost.direction==="up")
+  if (redGhost.direction==="up")
   {
-    if (Map[RedGost.row-1][RedGost.column]===1)
+    if (Map[redGhost.row-1][redGhost.column]===1)
     {
       let random=randomNumber(1,4);
 
@@ -852,37 +852,37 @@ else
       {
         case 1:
         {
-          RedGost.direction="up";
+          redGhost.direction="up";
           break;
         }
         case 2:
         {
-          RedGost.direction="right";
+          redGhost.direction="right";
           break;
         }
         case 3:
         {
-          RedGost.direction="down";
+          redGhost.direction="down";
           break;
         }
         case 4:
         {
-          RedGost.direction="left";
+          redGhost.direction="left";
           break;
         }
       }
     }
     else
     {
-      RedGost.goUp();
+      redGhost.goUp();
     }
 
   }
 
 
-  else  if (RedGost.direction==="down")
+  else  if (redGhost.direction==="down")
   {
-    if (Map[RedGost.row+1][RedGost.column]===1)
+    if (Map[redGhost.row+1][redGhost.column]===1)
     {
       let random=randomNumber(1,4);
 
@@ -890,35 +890,35 @@ else
       {
         case 1:
         {
-          RedGost.direction="up";
+          redGhost.direction="up";
           break;
         }
         case 2:
         {
-          RedGost.direction="right";
+          redGhost.direction="right";
           break;
         }
         case 3:
         {
-          RedGost.direction="down";
+          redGhost.direction="down";
           break;
         }
         case 4:
         {
-          RedGost.direction="left";
+          redGhost.direction="left";
           break;
         }
       }
     }
     else
     {
-      RedGost.goDown();
+      redGhost.goDown();
     }
 
   }
-  else  if (RedGost.direction==="right")
+  else  if (redGhost.direction==="right")
   {
-    if (Map[RedGost.row][RedGost.column+1]===1)
+    if (Map[redGhost.row][redGhost.column+1]===1)
     {
       let random=randomNumber(1,4);
 
@@ -926,365 +926,365 @@ else
       {
         case 1:
         {
-          RedGost.direction="up";
+          redGhost.direction="up";
           break;
         }
         case 2:
         {
-          RedGost.direction="right";
+          redGhost.direction="right";
           break;
         }
         case 3:
         {
-          RedGost.direction="down";
+          redGhost.direction="down";
           break;
         }
         case 4:
         {
-          RedGost.direction="left";
+          redGhost.direction="left";
           break;
         }
       }
     }
     else
     {
-      RedGost.goRight();
-    }
-
-  }
-
-  else  if (RedGost.direction==="left")
-  {
-    if (Map[RedGost.row][RedGost.column-1]===1)
-    {
-      let random=randomNumber(1,4);
-
-      switch (random)
-      {
-        case 1:
-        {
-          RedGost.direction="up";
-          break;
-        }
-        case 2:
-        {
-          RedGost.direction="right";
-          break;
-        }
-        case 3:
-        {
-          RedGost.direction="down";
-          break;
-        }
-        case 4:
-        {
-          RedGost.direction="left";
-          break;
-        }
-      }
-    }
-    else
-    {
-      RedGost.goLeft();
+      redGhost.goRight();
     }
 
   }
 
-
-
-  if (PinkGost.direction==="left")
+  else  if (redGhost.direction==="left")
   {
-    if (Map[PinkGost.row][PinkGost.column-1]===1)
+    if (Map[redGhost.row][redGhost.column-1]===1)
     {
       let random=randomNumber(1,4);
+
       switch (random)
       {
         case 1:
         {
-          PinkGost.direction="up";
+          redGhost.direction="up";
           break;
         }
         case 2:
         {
-          PinkGost.direction="right";
+          redGhost.direction="right";
           break;
         }
         case 3:
         {
-          PinkGost.direction="down";
+          redGhost.direction="down";
           break;
         }
         case 4:
         {
-          PinkGost.direction="left";
+          redGhost.direction="left";
           break;
         }
       }
     }
     else
     {
-      PinkGost.goLeft();
-    }
-
-  }
-  else  if (PinkGost.direction==="right")
-  {
-    if (Map[PinkGost.row][PinkGost.column+1]===1)
-    {
-      let random=randomNumber(1,4);
-      switch (random)
-      {
-        case 1:
-        {
-          PinkGost.direction="up";
-          break;
-        }
-        case 2:
-        {
-          PinkGost.direction="right";
-          break;
-        }
-        case 3:
-        {
-          PinkGost.direction="down";
-          break;
-        }
-        case 4:
-        {
-          PinkGost.direction="left";
-          break;
-        }
-      }
-    }
-    else
-    {
-      PinkGost.goRight();
-    }
-
-  }
-
- else if (PinkGost.direction==="up")
-  {
-    if (Map[PinkGost.row-1][PinkGost.column]===1)
-    {
-      let random=randomNumber(1,4);
-      switch (random)
-      {
-        case 1:
-        {
-          PinkGost.direction="up";
-          break;
-        }
-        case 2:
-        {
-          PinkGost.direction="right";
-          break;
-        }
-        case 3:
-        {
-          PinkGost.direction="down";
-          break;
-        }
-        case 4:
-        {
-          PinkGost.direction="left";
-          break;
-        }
-      }
-    }
-    else
-    {
-      PinkGost.goUp();
-    }
-
-  }
-
-else  if (PinkGost.direction==="down")
-  {
-    if (Map[PinkGost.row+1][PinkGost.column]===1)
-    {
-      let random=randomNumber(1,4);
-      switch (random)
-      {
-        case 1:
-        {
-          PinkGost.direction="up";
-          break;
-        }
-        case 2:
-        {
-          PinkGost.direction="right";
-          break;
-        }
-        case 3:
-        {
-          PinkGost.direction="down";
-          break;
-        }
-        case 4:
-        {
-          PinkGost.direction="left";
-          break;
-        }
-      }
-    }
-    else
-    {
-      PinkGost.goDown();
+      redGhost.goLeft();
     }
 
   }
 
 
 
-
-  if (OrangeGost.direction==="down")
+  if (pinkGhost.direction==="left")
   {
-    if (Map[OrangeGost.row+1][OrangeGost.column]===1)
+    if (Map[pinkGhost.row][pinkGhost.column-1]===1)
     {
       let random=randomNumber(1,4);
       switch (random)
       {
         case 1:
         {
-          OrangeGost.direction="up";
+          pinkGhost.direction="up";
           break;
         }
         case 2:
         {
-          OrangeGost.direction="right";
+          pinkGhost.direction="right";
           break;
         }
         case 3:
         {
-          OrangeGost.direction="down";
+          pinkGhost.direction="down";
           break;
         }
         case 4:
         {
-          OrangeGost.direction="left";
+          pinkGhost.direction="left";
           break;
         }
       }
     }
     else
     {
-      OrangeGost.goDown();
-    }
-
-  }
-  else   if (OrangeGost.direction==="up")
-  {
-    if (Map[OrangeGost.row-1][OrangeGost.column]===1)
-    {
-      let random=randomNumber(1,4);
-      switch (random)
-      {
-        case 1:
-        {
-          OrangeGost.direction="up";
-          break;
-        }
-        case 2:
-        {
-          OrangeGost.direction="right";
-          break;
-        }
-        case 3:
-        {
-          OrangeGost.direction="down";
-          break;
-        }
-        case 4:
-        {
-          OrangeGost.direction="left";
-          break;
-        }
-      }
-    }
-    else
-    {
-      OrangeGost.goUp();
+      pinkGhost.goLeft();
     }
 
   }
-  else   if (OrangeGost.direction==="left")
+  else  if (pinkGhost.direction==="right")
   {
-    if (Map[OrangeGost.row][OrangeGost.column-1]===1)
+    if (Map[pinkGhost.row][pinkGhost.column+1]===1)
     {
       let random=randomNumber(1,4);
       switch (random)
       {
         case 1:
         {
-          OrangeGost.direction="up";
+          pinkGhost.direction="up";
           break;
         }
         case 2:
         {
-          OrangeGost.direction="right";
+          pinkGhost.direction="right";
           break;
         }
         case 3:
         {
-          OrangeGost.direction="down";
+          pinkGhost.direction="down";
           break;
         }
         case 4:
         {
-          OrangeGost.direction="left";
+          pinkGhost.direction="left";
           break;
         }
       }
     }
     else
     {
-      OrangeGost.goLeft();
+      pinkGhost.goRight();
     }
 
   }
-  else   if (OrangeGost.direction==="right")
+
+ else if (pinkGhost.direction==="up")
   {
-    if (Map[OrangeGost.row][OrangeGost.column+1]===1)
+    if (Map[pinkGhost.row-1][pinkGhost.column]===1)
     {
       let random=randomNumber(1,4);
       switch (random)
       {
         case 1:
         {
-          OrangeGost.direction="up";
+          pinkGhost.direction="up";
           break;
         }
         case 2:
         {
-          OrangeGost.direction="right";
+          pinkGhost.direction="right";
           break;
         }
         case 3:
         {
-          OrangeGost.direction="down";
+          pinkGhost.direction="down";
           break;
         }
         case 4:
         {
-          OrangeGost.direction="left";
+          pinkGhost.direction="left";
           break;
         }
       }
     }
     else
     {
-      OrangeGost.goRight();
+      pinkGhost.goUp();
+    }
+
+  }
+
+else  if (pinkGhost.direction==="down")
+  {
+    if (Map[pinkGhost.row+1][pinkGhost.column]===1)
+    {
+      let random=randomNumber(1,4);
+      switch (random)
+      {
+        case 1:
+        {
+          pinkGhost.direction="up";
+          break;
+        }
+        case 2:
+        {
+          pinkGhost.direction="right";
+          break;
+        }
+        case 3:
+        {
+          pinkGhost.direction="down";
+          break;
+        }
+        case 4:
+        {
+          pinkGhost.direction="left";
+          break;
+        }
+      }
+    }
+    else
+    {
+      pinkGhost.goDown();
+    }
+
+  }
+
+
+
+
+  if (orangeGhost.direction==="down")
+  {
+    if (Map[orangeGhost.row+1][orangeGhost.column]===1)
+    {
+      let random=randomNumber(1,4);
+      switch (random)
+      {
+        case 1:
+        {
+          orangeGhost.direction="up";
+          break;
+        }
+        case 2:
+        {
+          orangeGhost.direction="right";
+          break;
+        }
+        case 3:
+        {
+          orangeGhost.direction="down";
+          break;
+        }
+        case 4:
+        {
+          orangeGhost.direction="left";
+          break;
+        }
+      }
+    }
+    else
+    {
+      orangeGhost.goDown();
+    }
+
+  }
+  else   if (orangeGhost.direction==="up")
+  {
+    if (Map[orangeGhost.row-1][orangeGhost.column]===1)
+    {
+      let random=randomNumber(1,4);
+      switch (random)
+      {
+        case 1:
+        {
+          orangeGhost.direction="up";
+          break;
+        }
+        case 2:
+        {
+          orangeGhost.direction="right";
+          break;
+        }
+        case 3:
+        {
+          orangeGhost.direction="down";
+          break;
+        }
+        case 4:
+        {
+          orangeGhost.direction="left";
+          break;
+        }
+      }
+    }
+    else
+    {
+      orangeGhost.goUp();
+    }
+
+  }
+  else   if (orangeGhost.direction==="left")
+  {
+    if (Map[orangeGhost.row][orangeGhost.column-1]===1)
+    {
+      let random=randomNumber(1,4);
+      switch (random)
+      {
+        case 1:
+        {
+          orangeGhost.direction="up";
+          break;
+        }
+        case 2:
+        {
+          orangeGhost.direction="right";
+          break;
+        }
+        case 3:
+        {
+          orangeGhost.direction="down";
+          break;
+        }
+        case 4:
+        {
+          orangeGhost.direction="left";
+          break;
+        }
+      }
+    }
+    else
+    {
+      orangeGhost.goLeft();
+    }
+
+  }
+  else   if (orangeGhost.direction==="right")
+  {
+    if (Map[orangeGhost.row][orangeGhost.column+1]===1)
+    {
+      let random=randomNumber(1,4);
+      switch (random)
+      {
+        case 1:
+        {
+          orangeGhost.direction="up";
+          break;
+        }
+        case 2:
+        {
+          orangeGhost.direction="right";
+          break;
+        }
+        case 3:
+        {
+          orangeGhost.direction="down";
+          break;
+        }
+        case 4:
+        {
+          orangeGhost.direction="left";
+          break;
+        }
+      }
+    }
+    else
+    {
+      orangeGhost.goRight();
     }
 
   }
 
 
   pacman.draw();
-  BlueGost.draw();
-  RedGost.draw();
-  PinkGost.draw();
-  OrangeGost.draw();
+  blueGhost.draw();
+  redGhost.draw();
+  pinkGhost.draw();
+  orangeGhost.draw();
 }
 animate();
 addEventListener('keydown',(e)=>
