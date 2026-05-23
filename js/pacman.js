@@ -561,75 +561,55 @@ function resetVelocities() {
   orangeGhost.velY = 0;
 }
 
+function continueCurrentDirection() {
+  if (direction === "up") {
+    pacman.goUp();
+  } else if (direction === "down") {
+    pacman.goDown();
+  } else if (direction === "right") {
+    pacman.goRight();
+  } else if (direction === "left") {
+    pacman.goLeft();
+  }
+}
+
 function movePacman() {
   if (lastkey === "ArrowDown") {
     if (pacman.x % 18 !== 0) {
-      if (direction === "right") {
-        pacman.goRight();
-      } else if (direction === "left") {
-        pacman.goLeft();
-      }
+      continueCurrentDirection();
     } else {
       if (gameMap[pacman.row + 1][pacman.column] === 1) {
-        if (direction === "right") {
-          pacman.goRight();
-        } else if (direction === "left") {
-          pacman.goLeft();
-        }
+        continueCurrentDirection();
       } else {
         pacman.goDown();
       }
     }
   } else if (lastkey === "ArrowUp") {
     if (pacman.x % 18 !== 0) {
-      if (direction === "right") {
-        pacman.goRight();
-      } else if (direction === "left") {
-        pacman.goLeft();
-      }
-    } else if (pacman.x % 18 === 0) {
+      continueCurrentDirection();
+    } else {
       if (gameMap[pacman.row - 1][pacman.column] === 1) {
-        if (direction === "right") {
-          pacman.goRight();
-        } else if (direction === "left") {
-          pacman.goLeft();
-        }
+        continueCurrentDirection();
       } else {
         pacman.goUp();
       }
     }
   } else if (lastkey === "ArrowRight") {
     if (pacman.y % 18 !== 0) {
-      if (direction === "up") {
-        pacman.goUp();
-      } else if (direction === "down") {
-        pacman.goDown();
-      }
-    } else if (pacman.y % 18 === 0) {
+      continueCurrentDirection();
+    } else {
       if (gameMap[pacman.row][pacman.column + 1] === 1) {
-        if (direction === "up") {
-          pacman.goUp();
-        } else if (direction === "down") {
-          pacman.goDown();
-        }
+        continueCurrentDirection();
       } else {
         pacman.goRight();
       }
     }
   } else if (lastkey === "ArrowLeft") {
     if (pacman.y % 18 !== 0) {
-      if (direction === "up") {
-        pacman.goUp();
-      } else if (direction === "down") {
-        pacman.goDown();
-      }
-    } else if (pacman.y % 18 === 0) {
+      continueCurrentDirection();
+    } else {
       if (gameMap[pacman.row][pacman.column - 1] === 1) {
-        if (direction === "up") {
-          pacman.goUp();
-        } else if (direction === "down") {
-          pacman.goDown();
-        }
+        continueCurrentDirection();
       } else {
         pacman.goLeft();
       }
