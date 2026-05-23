@@ -71,7 +71,7 @@ images.orangeGhost.src = "view/orange.png";
 
 // 1 = wall, 2 = dot, 3 = empty space
 // Map size: 22 rows × 19 columns
-let gameMap = [
+const initialGameMap = [
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   [1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1],
   [1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1],
@@ -96,6 +96,8 @@ let gameMap = [
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
 
+let gameMap = initialGameMap.map((row) => [...row]);
+
 class Dot {
   constructor({ position }) {
     this.x = position.x;
@@ -113,18 +115,6 @@ class Dot {
   }
 }
 
-class DotRespawn {
-  constructor({ position }) {
-    this.row = position.row;
-    this.col = position.col;
-  }
-  respawnDot() {
-    const respawnInterval = setInterval(() => {
-      gameMap[this.row][this.col] = 2;
-      clearInterval(respawnInterval);
-    }, 5000);
-  }
-}
 class Pacman {
   constructor({ position, velocity, gridPosition }) {
     this.x = position.x;
@@ -314,30 +304,7 @@ class Pacman {
             src: "orangeGhost",
             direction: "left",
           });
-          gameMap = [
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1],
-            [1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1],
-            [1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1],
-            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
-            [1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1],
-            [1, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 1],
-            [1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1],
-            [1, 1, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 1],
-            [1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1],
-            [3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3],
-            [1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1],
-            [1, 1, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 1],
-            [1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1],
-            [1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1],
-            [1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1],
-            [1, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 1],
-            [1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1],
-            [1, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 1],
-            [1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1],
-            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-          ];
+          gameMap = initialGameMap.map((row) => [...row]);
           statusDiv.style.display = "none";
           clearInterval(interval);
         }
@@ -586,13 +553,7 @@ function animate() {
   } else {
     scoreText.style.display = "flex";
   }
-  // if (score===1830)
-  // {
-  //   statusDiv.style.display="flex";
-  //
-  //   statusDiv.innerHTML='you win'+'<br>'+'press N to start';
-  //   return;
-  // }
+
   if (
     isColliding(pacman, redGhost) ||
     isColliding(pacman, pinkGhost) ||
