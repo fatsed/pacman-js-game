@@ -636,6 +636,21 @@ function movePacman() {
   }
 }
 
+function drawDots() {
+  gameMap.forEach((row, rowIndex) => {
+    row.forEach((symbol, columnIndex) => {
+      if (symbol === 2) {
+        new Dot({
+          position: {
+            x: 18 * columnIndex + 10,
+            y: 18 * rowIndex + 10,
+          },
+        }).draw();
+      }
+    });
+  });
+}
+
 function animate() {
   requestAnimationFrame(animate);
   context.clearRect(0, 0, canvas.width, canvas.height);
@@ -657,16 +672,7 @@ function animate() {
     showGameOver();
     return;
   }
-  gameMap.forEach((row, i) => {
-    row.forEach((symbol, j) => {
-      switch (symbol) {
-        case 2: {
-          new Dot({ position: { x: 18 * j + 10, y: 18 * i + 10 } }).draw();
-          break;
-        }
-      }
-    });
-  });
+  drawDots();
   movePacman();
   // Ghost movement
   moveGhost(blueGhost);
