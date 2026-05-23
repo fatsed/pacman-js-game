@@ -271,6 +271,7 @@ class Pacman {
           lastkey = "ArrowDown";
           isPlaying = true;
           score = 10;
+          scoreText.innerText = score;
           pacman = new Pacman({
             position: { x: 18, y: 18 },
             velocity: { x: 0, y: 0 },
