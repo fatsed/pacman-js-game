@@ -1,50 +1,119 @@
 @font-face {
-  font-family: "BDCartoonShoutRegular";
-  src: url("../font/BD_Cartoon_Shout-webfont.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+  font-family: Pacman;
+  src: url("fonts/BD_Cartoon_Shout-webfont.ttf");
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Pacman, sans-serif;
 }
 
 body {
   min-height: 100vh;
-  margin: 0;
-  font-family: sans-serif;
-  background-color: #888;
-
+  background-color: #242424;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-h1 {
-  font-family: "BDCartoonShoutRegular", sans-serif;
+.score {
   text-align: center;
-  margin: 0 0 24px;
-  font-size: 44px;
+  color: whitesmoke;
+  margin-top: 16px;
 }
 
-main {
-  height: 533px;
+.game {
+  position: relative;
+  width: 540px;
+  height: 621px;
+  display: flex;
+  flex-wrap: wrap;
+  border: 3px solid black;
+  background-image: url("view/board.png");
+  background-size: cover;
+  background-color: black;
+  border-radius: 5px;
+}
+
+.game div {
+  width: 28.42px;
+  height: 28.42px;
+}
+
+.get-ready {
+  color: whitesmoke;
+  text-align: center;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
+  width: 100%;
 }
 
-#shim {
-  font-family: "BDCartoonShoutRegular", sans-serif;
-  position: absolute;
-  visibility: hidden;
+.get-ready h1 {
+  background-color: rgba(0, 0, 0, 0.9);
+  padding: 7px 15px;
+  border-radius: 5px;
 }
 
-#pacman {
-  width: 342px;
-  height: 426px;
-  position: relative;
-  background-image: url("../view/board.png");
+.game .pacman-food {
+  background-color: white;
+  border-radius: 100%;
+  border: 8px solid black;
+}
+
+.game .pacman-power {
+  background-color: red;
+  border-radius: 100%;
+  border: 3px solid black;
+}
+
+.game .pacman {
+  background-color: yellow;
+  border-radius: 100%;
+  background-image: url("view/pacman-right.png");
   background-size: cover;
-  background-repeat: no-repeat;
+}
 
-  transform: scale(1.25);
-  transform-origin: top center;
+.game .pacman.right {
+  background-image: url("view/pacman-right.png");
+}
+
+.game .pacman.left {
+  background-image: url("view/pacman-left.png");
+}
+
+.game .pacman.up {
+  background-image: url("view/pacman-up.png");
+}
+
+.game .pacman.down {
+  background-image: url("view/pacman-down.png");
+}
+
+.game .ghost {
+  background-size: cover;
+  border: none;
+}
+
+.game .ghost.blinky {
+  background-image: url("view/red.png");
+}
+
+.game .ghost.pinky {
+  background-image: url("view/pink.png");
+}
+
+.game .ghost.inky {
+  background-image: url("view/orange.png");
+}
+
+.game .ghost.clyde {
+  background-image: url("view/blue.png");
+}
+
+.game .ghost.scared {
+  background-image: url("view/scared.png");
 }

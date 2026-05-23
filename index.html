@@ -1,21 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pacman JS Game</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="./style.css" />
+		<title></title>
+	</head>
+	<body>
+		<div class="get-ready">
+			<h1>Press Key N</h1>
+		</div>
+		<div class="game">
+		</div>
+		<h2 class="score">Score: <span id="score">0</span></h2>
 
-  <div id="shim">Font loader</div>
 
-  <h1>Pacman</h1>
+		<div class="sounds">
+			<audio id="eatFood">
+				<source src="./sounds/pacman_chomp.wav">
+			</audio>
+			<audio id="eatPower">
+				<source src="./sounds/pacman_eatfruit.wav">
+			</audio>
+		</div>
 
-  <main>
-    <div id="pacman"></div>
-  </main>
-
-  <script src="js/pacman.js"></script>
-</body>
+		<script src="./game.js"></script>
+	</body>
 </html>
