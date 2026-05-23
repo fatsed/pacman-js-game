@@ -543,19 +543,27 @@ function isColliding(character1, character2) {
   );
 }
 
+function resetVelocities() {
+  pacman.velX = 0;
+  pacman.velY = 0;
+
+  blueGhost.velX = 0;
+  blueGhost.velY = 0;
+
+  redGhost.velX = 0;
+  redGhost.velY = 0;
+
+  pinkGhost.velX = 0;
+  pinkGhost.velY = 0;
+
+  orangeGhost.velX = 0;
+  orangeGhost.velY = 0;
+}
+
 function animate() {
   requestAnimationFrame(animate);
   context.clearRect(0, 0, canvas.width, canvas.height);
-  pacman.velY = 0;
-  pacman.velX = 0;
-  redGhost.velY = 0;
-  redGhost.velX = 0;
-  blueGhost.velY = 0;
-  blueGhost.velX = 0;
-  pinkGhost.velY = 0;
-  pinkGhost.velX = 0;
-  orangeGhost.velY = 0;
-  orangeGhost.velX = 0;
+  resetVelocities();
 
   if (!isPlaying) {
     scoreText.style.display = "none";
