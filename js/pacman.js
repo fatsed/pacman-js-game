@@ -44,8 +44,9 @@ const ghostSpeed = 2;
 
 let score = 10;
 scoreText.innerText = score;
-////////////// 1= wall 2= dots 3=space 22 row 19 colunm
-let Map=[
+// 1 = wall, 2 = dot, 3 = empty space
+// Map size: 22 rows × 19 columns
+let gameMap=[
   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   [1,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,1],
   [1,2,1,1,2,1,1,1,2,1,2,1,1,1,2,1,1,2,1],
@@ -69,7 +70,7 @@ let Map=[
   [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 ];
-class Dots{
+class Dot{
  constructor({position}) {
    this.x=position.x;
    this.y=position.y;
@@ -87,29 +88,29 @@ class Dots{
    context.closePath();
  }
 }
-class redo{
+class DotRespawn{
     constructor({position}) {
         this.row=position.row;
         this.col=position.col;
     }
-    redoDots()
+    respawnDot()
     {
-        const redointerval=setInterval(()=>
+        const respawnInterval=setInterval(()=>
         {
-        Map[this.row][this.col]=2;
-            clearInterval(redointerval);
+        gameMap[this.row][this.col]=2;
+            clearInterval(respawnInterval);
         },5000)
     }
 }
 class Pacman
 {
-  constructor({position,velocity,matrisPosition}) {
+  constructor({position,velocity,gridPosition}) {
     this.x=position.x;
     this.y=position.y;
     this.velX=velocity.x;
     this.velY=velocity.y;
-    this.row=matrisPosition.row;
-    this.column=matrisPosition.column;
+    this.row=gridPosition.row;
+    this.column=gridPosition.column;
   }
   draw()
   {
@@ -141,7 +142,7 @@ class Pacman
   }
   goUp()
   {
-    if (Map[this.row-1][this.column]!==1)
+    if (gameMap[this.row-1][this.column]!==1)
     {
      direction='up';
       this.velY=-speed;
@@ -149,24 +150,24 @@ class Pacman
       if (this.y%18===0)
       {
         this.row--;
-        if (Map[this.row][this.column]===2)
+        if (gameMap[this.row][this.column]===2)
         {
           score+=10;
           scoreText.innerText=score;
-          new redo({position:{row:this.row,col:this.column}}).redoDots();
+          new DotRespawn({position:{row:this.row,col:this.column}}).respawnDot();
         }
         if (this.y!==this.row*18)
         {
           this.y=this.row*18;
           this.draw();
         }
-        Map[this.row][this.column]=3;
+        gameMap[this.row][this.column]=3;
       }
     }
   }
   goDown()
   {
-    if (Map[this.row+1][this.column]!==1)
+    if (gameMap[this.row+1][this.column]!==1)
     {
       direction='down';
       this.velY=speed;
@@ -174,24 +175,24 @@ class Pacman
       if (this.y%18===0)
       {
         this.row++;
-        if (Map[this.row][this.column]===2)
+        if (gameMap[this.row][this.column]===2)
         {
           score+=10;
           scoreText.innerText=score;
-            new redo({position:{row:this.row,col:this.column}}).redoDots();
+            new DotRespawn({position:{row:this.row,col:this.column}}).respawnDot();
         }
         if (this.y!==this.row*18)
         {
           this.y=this.row*18;
           this.draw();
         }
-        Map[this.row][this.column]=3;
+        gameMap[this.row][this.column]=3;
       }
     }
   }
   goRight()
   {
-    if (Map[this.row][this.column+1]!==1)
+    if (gameMap[this.row][this.column+1]!==1)
     {
       direction='right';
       this.velX=speed;
@@ -199,24 +200,24 @@ class Pacman
       if (this.x%18===0)
       {
         this.column++;
-        if (Map[this.row][this.column]===2)
+        if (gameMap[this.row][this.column]===2)
         {
           score+=10;
           scoreText.innerText=score;
-            new redo({position:{row:this.row,col:this.column}}).redoDots();
+            new DotRespawn({position:{row:this.row,col:this.column}}).respawnDot();
         }
         if (this.x!==this.column*18)
         {
           this.x=this.column*18;
           this.draw();
         }
-        Map[this.row][this.column]=3;
+        gameMap[this.row][this.column]=3;
       }
     }
   }
   goLeft()
   {
-    if (Map[this.row][this.column-1]!==1)
+    if (gameMap[this.row][this.column-1]!==1)
     {
       direction='left';
       this.velX=-speed;
@@ -224,18 +225,18 @@ class Pacman
       if (this.x%18===0)
       {
         this.column--;
-        if (Map[this.row][this.column]===2)
+        if (gameMap[this.row][this.column]===2)
         {
           score+=10;
           scoreText.innerText=score;
-            new redo({position:{row:this.row,col:this.column}}).redoDots();
+            new DotRespawn({position:{row:this.row,col:this.column}}).respawnDot();
         }
         if (this.x!==this.column*18)
         {
           this.x=this.column*18;
           this.draw();
         }
-        Map[this.row][this.column]=3;
+        gameMap[this.row][this.column]=3;
       }
     }
   }
@@ -291,12 +292,12 @@ class Pacman
           lastkey='ArrowDown';
           isPlaying=true;
           score=10;
-          pacman=new Pacman({position:{x:18,y:18},velocity:{x:0,y:0},matrisPosition:{row:1,column:1}});
-          blueGhost=new Ghosts({position:{x:14*18,y:14*18},velocity:{x:0,y:0},matrisPosition:{row:14,column:14},src:'view/blue.png',direction:'up'});
-          redGhost=new Ghosts({position:{x:10*18,y:7*18},velocity:{x:0,y:0},matrisPosition:{row:7,column:10},src:'view/red.png',direction:'up'});
-          pinkGhost=new Ghosts({position:{x:17*18,y:20*18},velocity:{x:0,y:0},matrisPosition:{row:20,column:17},src:'view/pink.png',direction:'left'});
-          orangeGhost=new Ghosts({position:{x:5*18,y:10*18},velocity:{x:0,y:0},matrisPosition:{row:10,column:5},src:'view/orange.png',direction:'left'});
-          Map=[
+          pacman=new Pacman({position:{x:18,y:18},velocity:{x:0,y:0},gridPosition:{row:1,column:1}});
+          blueGhost=new Ghost({position:{x:14*18,y:14*18},velocity:{x:0,y:0},gridPosition:{row:14,column:14},src:'view/blue.png',direction:'up'});
+          redGhost=new Ghost({position:{x:10*18,y:7*18},velocity:{x:0,y:0},gridPosition:{row:7,column:10},src:'view/red.png',direction:'up'});
+          pinkGhost=new Ghost({position:{x:17*18,y:20*18},velocity:{x:0,y:0},gridPosition:{row:20,column:17},src:'view/pink.png',direction:'left'});
+          orangeGhost=new Ghost({position:{x:5*18,y:10*18},velocity:{x:0,y:0},gridPosition:{row:10,column:5},src:'view/orange.png',direction:'left'});
+          gameMap=[
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
             [1,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,1],
             [1,2,1,1,2,1,1,1,2,1,2,1,1,1,2,1,1,2,1],
@@ -327,15 +328,15 @@ class Pacman
     }
   }
 }
-class Ghosts
+class Ghost
 {
-  constructor({position,velocity,matrisPosition,src,direction}) {
+  constructor({position,velocity,gridPosition,src,direction}) {
     this.x=position.x;
     this.y=position.y;
     this.velX=velocity.x;
     this.velY=velocity.y;
-    this.row=matrisPosition.row;
-    this.column=matrisPosition.column;
+    this.row=gridPosition.row;
+    this.column=gridPosition.column;
     this.src=src;
     this.direction=direction;
     this.isOut=false;
@@ -350,7 +351,7 @@ class Ghosts
   }
   goUp()
   {
-    if (Map[this.row-1][this.column]!==1)
+    if (gameMap[this.row-1][this.column]!==1)
     {
       this.direction='up';
       this.velY=-ghostSpeed;
@@ -364,7 +365,7 @@ class Ghosts
   }
   goDown()
   {
-    if (Map[this.row+1][this.column]!==1)
+    if (gameMap[this.row+1][this.column]!==1)
     {
       this.direction='down';
       this.velY=ghostSpeed;
@@ -380,7 +381,7 @@ class Ghosts
   }
   goRight()
   {
-    if (Map[this.row][this.column+1]!==1)
+    if (gameMap[this.row][this.column+1]!==1)
     {
       this.direction='right';
       this.velX=ghostSpeed;
@@ -396,7 +397,7 @@ class Ghosts
   }
   goLeft()
   {
-    if (Map[this.row][this.column-1]!==1)
+    if (gameMap[this.row][this.column-1]!==1)
     {
       this.direction='left';
       this.velX=-ghostSpeed;
@@ -417,19 +418,19 @@ class Ghosts
           if (this.x%18===0&&this.y%18===0)
           {
               let counter=0;
-              if (Map[this.row+1][this.column]!==1)
+              if (gameMap[this.row+1][this.column]!==1)
               {
                   counter++;
               }
-              if (Map[this.row-1][this.column]!==1)
+              if (gameMap[this.row-1][this.column]!==1)
               {
                   counter++;
               }
-              if (Map[this.row][this.column+1]!==1)
+              if (gameMap[this.row][this.column+1]!==1)
               {
                   counter++;
               }
-              if (Map[this.row][this.column-1]!==1)
+              if (gameMap[this.row][this.column-1]!==1)
               {
                   counter++;
               }
@@ -482,11 +483,11 @@ class Ghosts
     this.draw();
   }
 }
-let pacman=new Pacman({position:{x:18,y:18},velocity:{x:0,y:0},matrisPosition:{row:1,column:1}});
-let blueGhost=new Ghosts({position:{x:14*18,y:14*18},velocity:{x:0,y:0},matrisPosition:{row:14,column:14},src:'view/blue.png',direction:'up'});
-let redGhost=new Ghosts({position:{x:10*18,y:7*18},velocity:{x:0,y:0},matrisPosition:{row:7,column:10},src:'view/red.png',direction:'up'});
-let pinkGhost=new Ghosts({position:{x:17*18,y:20*18},velocity:{x:0,y:0},matrisPosition:{row:20,column:17},src:'view/pink.png',direction:'left'});
-let orangeGhost=new Ghosts({position:{x:5*18,y:10*18},velocity:{x:0,y:0},matrisPosition:{row:10,column:5},src:'view/orange.png',direction:'left'});
+let pacman=new Pacman({position:{x:18,y:18},velocity:{x:0,y:0},gridPosition:{row:1,column:1}});
+let blueGhost=new Ghost({position:{x:14*18,y:14*18},velocity:{x:0,y:0},gridPosition:{row:14,column:14},src:'view/blue.png',direction:'up'});
+let redGhost=new Ghost({position:{x:10*18,y:7*18},velocity:{x:0,y:0},gridPosition:{row:7,column:10},src:'view/red.png',direction:'up'});
+let pinkGhost=new Ghost({position:{x:17*18,y:20*18},velocity:{x:0,y:0},gridPosition:{row:20,column:17},src:'view/pink.png',direction:'left'});
+let orangeGhost=new Ghost({position:{x:5*18,y:10*18},velocity:{x:0,y:0},gridPosition:{row:10,column:5},src:'view/orange.png',direction:'left'});
 function  randomNumber(min,max)
 {
   return Math.floor(Math.random() * (max-min+1))+min;
@@ -550,7 +551,7 @@ else
     statusDiv.innerHTML='you lose'+'<br>'+'press N to start';
     return;
   }
-  Map.forEach((row,i)=>
+  gameMap.forEach((row,i)=>
   {
     row.forEach((symbol,j)=>
     {
@@ -558,7 +559,7 @@ else
       {
         case 2:
         {
-          new Dots({position:{x:18*j+10,y:18*i+10}}).draw();
+          new Dot({position:{x:18*j+10,y:18*i+10}}).draw();
           break;
         }
       }
@@ -580,7 +581,7 @@ else
     else
     {
 
-      if (Map[pacman.row+1][pacman.column]===1)
+      if (gameMap[pacman.row+1][pacman.column]===1)
       {
         if (direction==='right')
         {
@@ -613,7 +614,7 @@ else
     }
     else if (pacman.x %18 ===0)
     {
-      if (Map[pacman.row-1][pacman.column]===1)
+      if (gameMap[pacman.row-1][pacman.column]===1)
       {
         if (direction==='right')
         {
@@ -645,7 +646,7 @@ else
     }
     else if (pacman.y %18 ===0)
     {
-      if (Map[pacman.row][pacman.column+1]===1)
+      if (gameMap[pacman.row][pacman.column+1]===1)
       {
         if (direction==='up')
         {
@@ -677,7 +678,7 @@ else
     }
     else if (pacman.y %18 ===0)
     {
-      if (Map[pacman.row][pacman.column-1]===1)
+      if (gameMap[pacman.row][pacman.column-1]===1)
       {
         if (direction==='up')
         {
@@ -699,7 +700,7 @@ else
 
    if (blueGhost.direction==="up")
   {
-    if (Map[blueGhost.row-1][blueGhost.column]===1)
+    if (gameMap[blueGhost.row-1][blueGhost.column]===1)
     {
       let random=randomNumber(1,4);
       switch (random)
@@ -734,7 +735,7 @@ else
   }
    else    if (blueGhost.direction==="down")
    {
-     if (Map[blueGhost.row+1][blueGhost.column]===1)
+     if (gameMap[blueGhost.row+1][blueGhost.column]===1)
      {
        let random=randomNumber(1,4);
        switch (random)
@@ -769,7 +770,7 @@ else
    }
    else   if (blueGhost.direction==="left")
    {
-     if (Map[blueGhost.row][blueGhost.column-1]===1)
+     if (gameMap[blueGhost.row][blueGhost.column-1]===1)
      {
       let random=randomNumber(1,4);
        switch (random)
@@ -804,7 +805,7 @@ else
    }
    else   if (blueGhost.direction==="right")
    {
-     if (Map[blueGhost.row][blueGhost.column+1]===1)
+     if (gameMap[blueGhost.row][blueGhost.column+1]===1)
      {
        let random=randomNumber(1,4);
        switch (random)
@@ -844,7 +845,7 @@ else
   // blue ghost test do not come to this aria
   if (redGhost.direction==="up")
   {
-    if (Map[redGhost.row-1][redGhost.column]===1)
+    if (gameMap[redGhost.row-1][redGhost.column]===1)
     {
       let random=randomNumber(1,4);
 
@@ -882,7 +883,7 @@ else
 
   else  if (redGhost.direction==="down")
   {
-    if (Map[redGhost.row+1][redGhost.column]===1)
+    if (gameMap[redGhost.row+1][redGhost.column]===1)
     {
       let random=randomNumber(1,4);
 
@@ -918,7 +919,7 @@ else
   }
   else  if (redGhost.direction==="right")
   {
-    if (Map[redGhost.row][redGhost.column+1]===1)
+    if (gameMap[redGhost.row][redGhost.column+1]===1)
     {
       let random=randomNumber(1,4);
 
@@ -955,7 +956,7 @@ else
 
   else  if (redGhost.direction==="left")
   {
-    if (Map[redGhost.row][redGhost.column-1]===1)
+    if (gameMap[redGhost.row][redGhost.column-1]===1)
     {
       let random=randomNumber(1,4);
 
@@ -994,7 +995,7 @@ else
 
   if (pinkGhost.direction==="left")
   {
-    if (Map[pinkGhost.row][pinkGhost.column-1]===1)
+    if (gameMap[pinkGhost.row][pinkGhost.column-1]===1)
     {
       let random=randomNumber(1,4);
       switch (random)
@@ -1029,7 +1030,7 @@ else
   }
   else  if (pinkGhost.direction==="right")
   {
-    if (Map[pinkGhost.row][pinkGhost.column+1]===1)
+    if (gameMap[pinkGhost.row][pinkGhost.column+1]===1)
     {
       let random=randomNumber(1,4);
       switch (random)
@@ -1065,7 +1066,7 @@ else
 
  else if (pinkGhost.direction==="up")
   {
-    if (Map[pinkGhost.row-1][pinkGhost.column]===1)
+    if (gameMap[pinkGhost.row-1][pinkGhost.column]===1)
     {
       let random=randomNumber(1,4);
       switch (random)
@@ -1101,7 +1102,7 @@ else
 
 else  if (pinkGhost.direction==="down")
   {
-    if (Map[pinkGhost.row+1][pinkGhost.column]===1)
+    if (gameMap[pinkGhost.row+1][pinkGhost.column]===1)
     {
       let random=randomNumber(1,4);
       switch (random)
@@ -1140,7 +1141,7 @@ else  if (pinkGhost.direction==="down")
 
   if (orangeGhost.direction==="down")
   {
-    if (Map[orangeGhost.row+1][orangeGhost.column]===1)
+    if (gameMap[orangeGhost.row+1][orangeGhost.column]===1)
     {
       let random=randomNumber(1,4);
       switch (random)
@@ -1175,7 +1176,7 @@ else  if (pinkGhost.direction==="down")
   }
   else   if (orangeGhost.direction==="up")
   {
-    if (Map[orangeGhost.row-1][orangeGhost.column]===1)
+    if (gameMap[orangeGhost.row-1][orangeGhost.column]===1)
     {
       let random=randomNumber(1,4);
       switch (random)
@@ -1210,7 +1211,7 @@ else  if (pinkGhost.direction==="down")
   }
   else   if (orangeGhost.direction==="left")
   {
-    if (Map[orangeGhost.row][orangeGhost.column-1]===1)
+    if (gameMap[orangeGhost.row][orangeGhost.column-1]===1)
     {
       let random=randomNumber(1,4);
       switch (random)
@@ -1245,7 +1246,7 @@ else  if (pinkGhost.direction==="down")
   }
   else   if (orangeGhost.direction==="right")
   {
-    if (Map[orangeGhost.row][orangeGhost.column+1]===1)
+    if (gameMap[orangeGhost.row][orangeGhost.column+1]===1)
     {
       let random=randomNumber(1,4);
       switch (random)
