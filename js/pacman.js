@@ -532,6 +532,11 @@ function getRandomDirection() {
   }
 }
 
+function showGameOver() {
+  statusDiv.style.display = "flex";
+  statusDiv.innerHTML = "You Lose<br>Press N to Restart";
+}
+
 function animate()
 {
   requestAnimationFrame(animate);
@@ -566,29 +571,22 @@ else
   // }
   if ((pacman.x + 22 > redGhost.x && pacman.x <redGhost.x+22) &&(pacman.y+22 > redGhost.y && pacman.y< redGhost.y+22))
   {
-    statusDiv.style.display="flex";
-
-    statusDiv.innerHTML='you lose'+'<br>'+'press N to start';
+    showGameOver();
     return;
   }
   if ((pacman.x + 22 > pinkGhost.x && pacman.x <pinkGhost.x+22) &&(pacman.y+22 > pinkGhost.y && pacman.y< pinkGhost.y+22))
   {
-    statusDiv.style.display="flex";
-
-    statusDiv.innerHTML='you lose'+'<br>'+'press N to start';
+    showGameOver();
     return;
   }
   if ((pacman.x + 22 > orangeGhost.x && pacman.x <orangeGhost.x+22) &&(pacman.y+22 > orangeGhost.y && pacman.y< orangeGhost.y+22))
   {
-    statusDiv.style.display="flex";
-    statusDiv.innerHTML='you lose'+'<br>'+'press N to start';
+    showGameOver();
     return;
   }
   if ((pacman.x + 22 > blueGhost.x && pacman.x <blueGhost.x+22) &&(pacman.y+22 > blueGhost.y && pacman.y< blueGhost.y+22))
   {
-    statusDiv.style.display="flex";
-
-    statusDiv.innerHTML='you lose'+'<br>'+'press N to start';
+    showGameOver();
     return;
   }
   gameMap.forEach((row,i)=>
