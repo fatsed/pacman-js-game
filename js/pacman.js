@@ -560,37 +560,7 @@ function resetVelocities() {
   orangeGhost.velY = 0;
 }
 
-function animate() {
-  requestAnimationFrame(animate);
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  resetVelocities();
-
-  if (!isPlaying) {
-    scoreText.style.display = "none";
-    return;
-  } else {
-    scoreText.style.display = "flex";
-  }
-
-  if (
-    isColliding(pacman, redGhost) ||
-    isColliding(pacman, pinkGhost) ||
-    isColliding(pacman, orangeGhost) ||
-    isColliding(pacman, blueGhost)
-  ) {
-    showGameOver();
-    return;
-  }
-  gameMap.forEach((row, i) => {
-    row.forEach((symbol, j) => {
-      switch (symbol) {
-        case 2: {
-          new Dot({ position: { x: 18 * j + 10, y: 18 * i + 10 } }).draw();
-          break;
-        }
-      }
-    });
-  });
+function movePacman() {
   if (lastkey === "ArrowDown") {
     if (pacman.x % 18 !== 0) {
       if (direction === "right") {
@@ -664,6 +634,40 @@ function animate() {
       }
     }
   }
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  resetVelocities();
+
+  if (!isPlaying) {
+    scoreText.style.display = "none";
+    return;
+  } else {
+    scoreText.style.display = "flex";
+  }
+
+  if (
+    isColliding(pacman, redGhost) ||
+    isColliding(pacman, pinkGhost) ||
+    isColliding(pacman, orangeGhost) ||
+    isColliding(pacman, blueGhost)
+  ) {
+    showGameOver();
+    return;
+  }
+  gameMap.forEach((row, i) => {
+    row.forEach((symbol, j) => {
+      switch (symbol) {
+        case 2: {
+          new Dot({ position: { x: 18 * j + 10, y: 18 * i + 10 } }).draw();
+          break;
+        }
+      }
+    });
+  });
+  movePacman();
   // Ghost movement
   moveGhost(blueGhost);
   moveGhost(redGhost);
