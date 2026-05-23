@@ -537,6 +537,15 @@ function showGameOver() {
   statusDiv.innerHTML = "You Lose<br>Press N to Restart";
 }
 
+function isColliding(character1, character2) {
+  return (
+    character1.x + 22 > character2.x &&
+    character1.x < character2.x + 22 &&
+    character1.y + 22 > character2.y &&
+    character1.y < character2.y + 22
+  );
+}
+
 function animate()
 {
   requestAnimationFrame(animate);
@@ -561,7 +570,6 @@ else
   {
     scoreText.style.display='flex';
   }
-
   // if (score===1830)
   // {
   //   statusDiv.style.display="flex";
@@ -569,25 +577,14 @@ else
   //   statusDiv.innerHTML='you win'+'<br>'+'press N to start';
   //   return;
   // }
-  if ((pacman.x + 22 > redGhost.x && pacman.x <redGhost.x+22) &&(pacman.y+22 > redGhost.y && pacman.y< redGhost.y+22))
-  {
-    showGameOver();
-    return;
-  }
-  if ((pacman.x + 22 > pinkGhost.x && pacman.x <pinkGhost.x+22) &&(pacman.y+22 > pinkGhost.y && pacman.y< pinkGhost.y+22))
-  {
-    showGameOver();
-    return;
-  }
-  if ((pacman.x + 22 > orangeGhost.x && pacman.x <orangeGhost.x+22) &&(pacman.y+22 > orangeGhost.y && pacman.y< orangeGhost.y+22))
-  {
-    showGameOver();
-    return;
-  }
-  if ((pacman.x + 22 > blueGhost.x && pacman.x <blueGhost.x+22) &&(pacman.y+22 > blueGhost.y && pacman.y< blueGhost.y+22))
-  {
-    showGameOver();
-    return;
+  if (
+  isColliding(pacman, redGhost) ||
+  isColliding(pacman, pinkGhost) ||
+  isColliding(pacman, orangeGhost) ||
+  isColliding(pacman, blueGhost)
+) {
+  showGameOver();
+  return;
   }
   gameMap.forEach((row,i)=>
   {
